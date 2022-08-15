@@ -1,14 +1,19 @@
+//https://router.vuejs.org/guide/advanced/composition-api.html#uselink
+
 import { createPinia } from 'pinia'
 import { ViteSSG } from 'vite-ssg/single-page'
 import { usePageStore } from './store/page'
+
 import App from './App.vue'
 
 export const createApp = ViteSSG(
 	App,
-	async ({ app, initialState, router }) => {
-		console.log('router = ', router);
+	async ctx => {
+		const app = ctx.app;
+		const initialState = ctx.initialState;
+		console.log('url = ', ctx);
 		console.log('app = ', app);
-		
+
 		const pinia = createPinia()
 		app.use(pinia)
 

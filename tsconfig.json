@@ -13,7 +13,10 @@
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"types": [
-			"vite/client"
+			"@types/node",
+			"@lodash/types",
+			"vite/client",
+			"vue/ref-macros"
 		]
 	},
 	"exclude": [
