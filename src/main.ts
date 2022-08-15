@@ -1,11 +1,14 @@
 import { createPinia } from 'pinia'
 import { ViteSSG } from 'vite-ssg/single-page'
-import { useRootStore } from './store/root'
+import { usePageStore } from './store/page'
 import App from './App.vue'
 
 export const createApp = ViteSSG(
 	App,
-	async ({ app, initialState }) => {
+	async ({ app, initialState, router }) => {
+		console.log('router = ', router);
+		console.log('app = ', app);
+		
 		const pinia = createPinia()
 		app.use(pinia)
 
@@ -20,7 +23,7 @@ export const createApp = ViteSSG(
 			pinia.state.value = initialState.pinia || {}
 		}
 
-		const store = useRootStore(pinia)
+		const store = usePageStore(pinia)
 		await store.initialize()
 
 	},

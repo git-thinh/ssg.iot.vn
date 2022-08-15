@@ -3,23 +3,22 @@ import { defineStore } from 'pinia'
 // Import axios to make HTTP requests
 import axios from 'axios'
 
-interface PageData {
+interface PageState {
+	app: Record<string, any> | null,
 	titles: any[] | [],
 	paths: any[] | []
 }
 
-interface RootState {
-	page: Record<string, PageData> | null
-}
-
-export const useRootStore = defineStore({
-	id: 'root',
-	state: (): RootState => ({
-		page: null
+export const usePageStore = defineStore({
+	id: 'page',
+	state: (): PageState => ({
+		app: null,
+		titles: [],
+		paths: []
 	}),
 	getters: {
 		isReady(state) {
-			return !!state.page
+			return !!state.app
 		},
 	},
 	actions: {
@@ -28,7 +27,7 @@ export const useRootStore = defineStore({
 			if (this.isReady)
 				return
 
-			const page = { titles: [], paths: [] }
+			const page = { app: { path: '' }, titles: [], paths: [] }
 			try {
 				const rs = await Promise.all([
 					axios.get('http://data.iot.vn/static/article/info-tits.json'),
@@ -48,7 +47,10 @@ export const useRootStore = defineStore({
 			}
 
 			console.log('Initialize page = ', page)
-			this.page = page;
+			
+			this.app = page.app;
+			this.titles = page.titles;
+			this.paths = page.paths;
 		}
 
 	},

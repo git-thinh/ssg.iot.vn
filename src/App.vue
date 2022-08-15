@@ -3,22 +3,25 @@
 		useHead
 	} from '@vueuse/head'
 	import {
-		useRootStore
-	} from './store/root'
+		usePageStore
+	} from './store/page'
 
 	useHead({
 		title: 'Hello World',
 	})
 
-	const store = useRootStore()
+	const store = usePageStore()
 </script>
 
 <template>
-	<h2>Hello</h2>
-	<p>World</p>
-
+	<h2>Hello World</h2>
+	<a href="/">Home</a> | 
+	<a href="/1-bac-si-cap-cuu-an-giang-dang-dieu-tri-100-benh-nhan-covid-19-169211210120133908">
+		1 bác sĩ cấp cứu An Giang đang điều trị 100 bệnh nhân COVID-19
+	</a>
+	<hr>
 	<h3>Initial State:</h3>
-	<pre>{{ store.page }}</pre>
+	<pre>{{ store }}</pre>
 </template>
 
 <style>
