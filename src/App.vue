@@ -1,26 +1,27 @@
 <script setup lang="ts">
-	useHead({
-		title: 'Hello World',
-	})
+	let title = '';
+	let path = '';
 
 	const store = usePageStore()
+	const page = store.page;
+	
+	if (page && page.titles.length > 0) {
+		title = page.titles[0]
+		path = '/' + page.paths[0]
+	}
 
-	const router = useRouter()
-	const route = useRoute()
-
-	console.log(router)
-	console.log(route)
+	useHead({
+		title: title,
+	})
 </script>
 
 <template>
-	<h2>Hello World</h2>
+	<h1>Test</h1>
 	<a href="/">Home</a> |
-	<a href="/1-bac-si-cap-cuu-an-giang-dang-dieu-tri-100-benh-nhan-covid-19-169211210120133908">
-		1 bác sĩ cấp cứu An Giang đang điều trị 100 bệnh nhân COVID-19
-	</a>
+	<a :href="path">{{title}}</a>
 	<hr>
 	<h3>Initial State:</h3>
-	<pre>{{ store }}</pre>
+	<pre>{{ page }}</pre>
 </template>
 
 <style>

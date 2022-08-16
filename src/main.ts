@@ -1,5 +1,5 @@
 //https://router.vuejs.org/guide/advanced/composition-api.html#uselink
-
+import devalue from '@nuxt/devalue'
 import { createPinia } from 'pinia'
 import { ViteSSG } from 'vite-ssg/single-page'
 import { usePageStore } from './store/page'
@@ -8,11 +8,8 @@ import App from './App.vue'
 
 export const createApp = ViteSSG(
 	App,
-	async ctx => {
-		const app = ctx.app;
-		const initialState = ctx.initialState;
-		console.log('url = ', ctx);
-		console.log('app = ', app);
+	async ({ app, router, routes, isClient, initialState }) => {
+		//console.log('app = ', app);
 
 		const pinia = createPinia()
 		app.use(pinia)
@@ -31,5 +28,10 @@ export const createApp = ViteSSG(
 		const store = usePageStore(pinia)
 		await store.initialize()
 
+	},
+	{
+		transformState(state) {
+			return import.meta.env.SSR ? devalue(state) : state
+		},
 	},
 )

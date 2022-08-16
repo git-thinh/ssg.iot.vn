@@ -6,6 +6,7 @@
     "view": "serve ./dist -p 12345"
   },
   "dependencies": {
+    "@nuxt/devalue": "^2.0.0",
     "@vueuse/core": "^9.1.0",
     "@vueuse/head": "^0.7.9",
     "axios": "^0.27.2",

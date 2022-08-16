@@ -126,7 +126,8 @@ const config: UserConfig = {
 		includedRoutes(paths, routes) {
 			// exclude all the route paths that contains 'foo'
 			//return paths.filter(i => !i.includes('foo'))
-			return ['/', '/1-bac-si-cap-cuu-an-giang-dang-dieu-tri-100-benh-nhan-covid-19-169211210120133908'];
+			return ['/', '/mascot-accelerate-18001-249'];
+			//return ['/'];
 		},
 	},
 }
