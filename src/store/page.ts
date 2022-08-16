@@ -17,13 +17,11 @@ export const usePageStore = defineStore({
 	},
 	actions: {
 		async initialize() {
-			if (this.isReady) return;
-			console.log('Initialize page ...')
+			//console.log('[0] Initialize page ...')
+			if (this.isReady) return this.page;
 
-			let url01 = 'https://m.op.pimage.mascot.dk/data/productsForFilter/productsForFilter-da.json'
-			let url02 = 'https://m.op.pimage.mascot.dk/data/productsForFilter/productsForFilter-da.json'
-			//url01 = 'http://data.iot.vn/static/article/info-tits.json'
-			//url02 = 'http://data.iot.vn/static/article/info-path.json'
+			let url01 = 'http://data.iot.vn/static/article/info-tits.json'
+			let url02 = 'http://data.iot.vn/static/article/info-path.json'
 
 			const page = { app: { path: '' }, titles: [], paths: [] }
 			try {
@@ -33,12 +31,10 @@ export const usePageStore = defineStore({
 				]);
 				let a = rs[0].data;
 				a = a.filter((o: any, k: number) => k < 10);
-				a = a.map(o => o.n + ' ' + o.b + ' ' + o.r)
 				page.titles = a;
 
 				a = rs[1].data;
 				a = a.filter((o: any, k: number) => k < 10);
-				a = a.map(o => (o.b + '-' + o.r + '-' + o.n).toLowerCase().split('®').join(''))
 				page.paths = a;
 			}
 			catch (error) {
@@ -46,9 +42,10 @@ export const usePageStore = defineStore({
 				console.log(error)
 			}
 
-			console.log('Initialize titles = ', page.titles.length)
+			console.log('[1] Initialize titles = ', page.titles.length)
 			this.page = page;
-
+			
+			return page;
 		},
 	},
 })
