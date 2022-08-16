@@ -44,21 +44,47 @@ export default defineConfig({
 		Layouts(),
 
 		// https://github.com/hannoeru/vite-plugin-pages
-		Pages({
-			extensions: ['vue'],
-			// extendRoute(route, parent) {
-			//   if (route.name === 'Index') {
-			//     // Index is unauthenticated.
-			//     return route
-			//   }
+		// Pages({
+		// 	extensions: ['vue'],
+		// 	// extendRoute(route, parent) {
+		// 	//   if (route.name === 'Index') {
+		// 	//     // Index is unauthenticated.
+		// 	//     return route
+		// 	//   }
 
-			//   // Augment the route with meta that indicates that the route requires authentication.
-			//   return {
-			//     ...route,
-			//     meta: { auth: true },
-			//   }
+		// 	//   // Augment the route with meta that indicates that the route requires authentication.
+		// 	//   return {
+		// 	//     ...route,
+		// 	//     meta: { auth: true },
+		// 	//   }
+		// 	// },
+		// }),
+
+		// https://github.com/hannoeru/vite-plugin-pages
+		Pages({
+			dirs: [
+				{ dir: `~/pages`, baseRoute: '' },
+				//{ dir: `core/pages/test`, baseRoute: 'test' },
+				//{ dir: `src/${_projectCode}/pages`, baseRoute: '' },
+				//{ dir: '../shared.iot.vn/pages', baseRoute: '' },
+				// { dir: 'src/pages', baseRoute: '' },
+				// { dir: 'src/features/**/pages', baseRoute: 'features' },
+				// { dir: 'src/admin/pages', baseRoute: 'admin' },
+			],
+			extensions: ['vue', 'md'],
+			//exclude: ['**/components/*.vue'],
+			// importMode(filepath, options) {
+			// 	// default resolver
+			// 	// for (const page of options.dirs) {
+			// 	//   if (page.baseRoute === '' && filepath.startsWith(`/${page.dir}/index`))
+			// 	//     return 'sync'
+			// 	// }
+			// 	// return 'async'
+			// 	// Load about page synchronously, all other pages are async.
+			// 	return filepath.includes('about') ? 'sync' : 'async'
 			// },
 		}),
+
 
 		// https://github.com/antfu/unplugin-auto-import
 		// AutoImport({
@@ -156,18 +182,61 @@ export default defineConfig({
 		}),
 
 		// https://github.com/antfu/unplugin-vue-components
+		// Components({
+		// 	// relative paths to the directory to search for components
+		// 	dirs: ['src/**/components'],
+		// 	// allow auto load markdown components under `./src/components/`
+		// 	extensions: ['vue'],
+		// 	// allow auto import and register components used in markdown
+		// 	include: [/\.vue$/, /\.vue\?vue/],
+		// 	dts: 'src/components.d.ts'
+		// }),
+		// https://github.com/antfu/unplugin-vue-components
 		Components({
-			// relative paths to the directory to search for components
-			dirs: ['src/**/components'],
+			// relative paths to the directory to search for components.
+			dirs: [
+				`~/components`,
+				//`src/${_projectCode}/components`,
+				//`src/${_projectCode}/contents`,
+				//__pathRuntimeShared,
+				//__pathRuntimeProject,
+			],
 
-			// allow auto load markdown components under `./src/components/`
+			// search for subdirectories
+			deep: true,
+			// resolvers for custom components
+			resolvers: [],
+
+			// generate `components.d.ts` global declarations,
+			// also accepts a path for custom filename
+			// default: `true` if package typescript is installed
+			dts: false,
+
+			// Allow subdirectories as namespace prefix for components.
+			directoryAsNamespace: false,
+			// Subdirectory paths for ignoring namespace prefixes
+			// works when `directoryAsNamespace: true`
+			globalNamespaces: [],
+
+			// auto import for directives
+			// default: `true` for Vue 3, `false` for Vue 2
+			// Babel is needed to do the transformation for Vue 2, it's disabled by default for performance concerns.
+			// To install Babel, run: `npm install -D @babel/parser`
+			directives: true,
+
+			// Transform path before resolving
+			//importPathTransform: v => v,
+
+			// Allow for components to override other components with the same name
+			allowOverrides: false,
+
+			// valid file extensions for components.
 			extensions: ['vue'],
-
-			// allow auto import and register components used in markdown
+			// filters for transforming targets
 			include: [/\.vue$/, /\.vue\?vue/],
-
-			dts: 'src/components.d.ts'
+			exclude: [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/, /[\\/]\.nuxt[\\/]/],
 		}),
+
 
 		// https://github.com/antfu/vite-plugin-pwa
 		VitePWA({
@@ -210,7 +279,7 @@ export default defineConfig({
 		}),
 	],
 
-	build: { 
+	build: {
 		minify: false,
 		emptyOutDir: true,
 		ssrManifest: true,
@@ -234,7 +303,7 @@ export default defineConfig({
 			},
 		}
 	},
-	
+
 	optimizeDeps: {
 		include: [
 			'vue',
