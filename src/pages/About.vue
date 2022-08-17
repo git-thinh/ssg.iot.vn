@@ -1,5 +1,3 @@
-<route>{name:"About", layout:"Default", meta:{requiresAuth: false}}</route>
-
 <template>
   <h1>About</h1>
 </template>

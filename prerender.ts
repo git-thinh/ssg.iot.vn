@@ -53,16 +53,35 @@ export async function build() {
 	for (const url of routesToPrerender) {
 		const page = await apiGetPage(url);
 		//console.log(`SERVER.PAGE = `, page);
-		let js = '<script> window.__data__ = ' + JSON.stringify(page) + ' </script>';
+		let jsData = '<script> window.__data__ = ' + JSON.stringify(page) + ' </script>';
 
-		const [appHtml, preloadLinks] = await render(url, manifest, page)
-
+		//const [appHtml, preloadLinks] = await render(url, manifest, page)
+		const [appHtml, preloadLinks, headTags, htmlAttrs, bodyAttrs, bodyTags] = await render(url, manifest, page)
 		// const postTemplate = await vite.transformIndexHtml(url, template)
 
-		const html = template
-			.replace('<!--preload-links-->', preloadLinks + js)
-			.replace('<!--app-html-->', appHtml)
-
+		// const html = template
+		// 	.replace('<!--preload-links-->', preloadLinks + jsData)
+		// 	.replace('<!--app-html-->', appHtml)
+		
+		//console.log('SERVER: headTags = ',headTags)
+		//console.log('SERVER: htmlAttrs = ',htmlAttrs)
+		//console.log('SERVER: bodyAttrs = ',bodyAttrs)
+		//console.log('SERVER: bodyTags = ',bodyTags)
+		
+		const html =
+`<html${htmlAttrs}>		
+  <head>
+	${headTags}
+	${preloadLinks}	
+  </head>		
+  <body${bodyAttrs}>
+	<div id="app">${appHtml}</div>
+	${bodyTags}
+	<script type="module" crossorigin src="/index.js"></script>
+	${jsData}			
+  </body>		
+</html>`
+		
 		const filePath = `dist/static${url === '/' ? '/index' : url}.html`
 		ensureDirExist(filePath)
 		fs.writeFileSync(toAbsolute(filePath), html)

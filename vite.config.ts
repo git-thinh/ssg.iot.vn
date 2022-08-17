@@ -1,7 +1,6 @@
 import path from 'path'
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
-import Layouts from 'vite-plugin-vue-layouts'
 import Pages from 'vite-plugin-pages'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -41,7 +40,7 @@ export default defineConfig({
 		Vue(),
 
 		// https://github.com/JohnCampionJr/vite-plugin-vue-layouts
-		Layouts(),
+		// Layouts(),
 
 		// https://github.com/hannoeru/vite-plugin-pages
 		// Pages({
@@ -59,8 +58,6 @@ export default defineConfig({
 		// 	//   }
 		// 	// },
 		// }),
-
-		// https://github.com/hannoeru/vite-plugin-pages
 		Pages({
 			dirs: [
 				{ dir: `~/pages`, baseRoute: '' },
@@ -94,8 +91,6 @@ export default defineConfig({
 		//   ],      
 		//   dts: 'src/auto-imports.d.ts'
 		// }),
-
-		// https://github.com/antfu/unplugin-auto-import
 		AutoImport({
 			include: [/\.ts$/, /\.vue$/, /\.md$/],
 			imports: [
@@ -107,9 +102,12 @@ export default defineConfig({
 				//'@vueuse/core',
 
 				{
-					'vue': ['createSSRApp', 'useSSRContext', 'ref'],
+					'vue': ['createSSRApp', 'useSSRContext', 'ref', 'defineComponent', 'computed', 'reactive'],
 					'vue-router': ['useRoute', 'useRouter'],
-					'@vueuse/head': ['head'],
+					
+					// https://github.com/vueuse/head
+					'@vueuse/head': ['createHead', 'useHead'],
+					
 					'@nuxt/devalue': ['devalue'],
 					'pinia': ['createPinia'],
 
@@ -278,7 +276,11 @@ export default defineConfig({
 
 		// https://github.com/antfu/vite-plugin-restart
 		Restart({
-			restart: ['../../dist/*.js'],
+			restart: [
+				'../../dist/*.js',
+				//'./server.ts',
+				//'./src/api/apiPage.ts',
+			],
 		}),
 	],
 

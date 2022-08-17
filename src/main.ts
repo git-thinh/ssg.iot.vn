@@ -5,9 +5,12 @@ import App from './App.vue'
 // fresh store here.
 export function createApp() {
 	const app = createSSRApp(App)
+	
 	const router = createRouter()
-
 	app.use(router)
+
+	//const head = createHead()
+	//app.use(head)
 
 	const pinia = createPinia()
 	app.use(pinia)

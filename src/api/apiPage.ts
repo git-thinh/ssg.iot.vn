@@ -5,15 +5,48 @@ export async function apiGetPage(path_: string) {
 	let url02 = 'https://m.op.pimage.mascot.dk/data/productsForFilter/productsForFilter-da.json'
 	//url01 = 'http://data.iot.vn/static/article/info-tits.json'
 	//url02 = 'http://data.iot.vn/static/article/info-path.json'
+	url01 = 'http://localhost:5679/test/productsForFilter-da.json'
+	url02 = 'http://localhost:5679/test/productsForFilter-da.json'
 
 	const page = {
 		ok: true,
 		message: '',
 		time: new Date().getTime(),
+		head: {			
+			title: 'Test - 12345',
+			meta: [
+			    {
+			      property: "og:locale:alternate",
+			      content: "zh",
+			      key: "zh",
+			    },
+			    {
+			      property: "og:locale:alternate",
+			      content: "en",
+			      key: "en",
+			    },
+			],
+			script: [
+			    {
+			      children: `console.log('Hello world!')`,
+			      body: true,
+			    },
+			],
+			style: [
+			    {
+			      children: `body {color: red}`,
+			    },
+			],
+			noscript: [
+				{
+					children: `Javascript is required`,
+				},
+			],
+		},
 		app: {
 			path: path_,
 			theme: 'anime',
-			template: '',
+			template: ''
 		},
 		data: {
 			titles: [],

@@ -67,11 +67,11 @@ async function createServer(
 
 			if (!isProd) {
 				// always read fresh template in dev
-				template = fs.readFileSync(resolve('index.html'), 'utf-8')
-				template = await vite.transformIndexHtml(url, template)
+				//template = fs.readFileSync(resolve('index.html'), 'utf-8')
+				//template = await vite.transformIndexHtml(url, template)
 				render = (await vite.ssrLoadModule('/src/entry-server.ts')).render
 			} else {
-				template = indexProd
+				//template = indexProd
 				// @ts-ignore
 				render = await import('./dist/server/entry-server.js').then(i => i.render)
 				//render = await import('./dist/server/assets__/js/entry-server.js').then(i => i.render)
@@ -79,15 +79,32 @@ async function createServer(
 
 			const page = await apiGetPage(url);
 			//console.log(`SERVER.PAGE = `, page);
-			let js = '<script> window.__data__ = '+ JSON.stringify(page) +' </script>';
-
-			const [appHtml, preloadLinks] = await render(url, manifest, page)
-			console.log(`SERVER.preloadLinks = `, preloadLinks);
-
-
-			const html = template
-				.replace(`<!--preload-links-->`, preloadLinks + js)
-				.replace(`<!--app-html-->`, appHtml)
+			let jsData = '\n<script> window.__data__ = '+ JSON.stringify(page) +' </script>';
+			
+			const [appHtml, preloadLinks, headTags, htmlAttrs, bodyAttrs, bodyTags] = await render(url, manifest, page)
+						
+			//console.log('SERVER: headTags = ',headTags)
+			//console.log('SERVER: htmlAttrs = ',htmlAttrs)
+			//console.log('SERVER: bodyAttrs = ',bodyAttrs)
+			//console.log('SERVER: bodyTags = ',bodyTags)
+			
+			// const html = template
+			// 	.replace(`<!--preload-links-->`, preloadLinks + headTags + jsData)
+			// 	.replace(`<!--app-html-->`, appHtml)
+			
+const html = `
+<html${htmlAttrs}>
+  <head>
+    ${headTags}
+  </head>
+  <body${bodyAttrs}>
+    <div id="app">${appHtml}</div>	
+    ${bodyTags}		
+	<script type="module" src="/src/entry-client.ts"></script>
+    ${jsData}
+  </body>
+</html>
+`
 
 			res
 				.status(200)

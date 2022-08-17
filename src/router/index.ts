@@ -1,8 +1,7 @@
 import { createMemoryHistory, createRouter as _createRouter, createWebHistory } from 'vue-router'
 import generatedRoutes from 'virtual:generated-pages'
-import { setupLayouts } from 'virtual:generated-layouts'
 
-const routes = setupLayouts(generatedRoutes)
+const routes = generatedRoutes;
 
 export function createRouter() {
   return _createRouter({
