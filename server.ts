@@ -3,6 +3,9 @@ import path from 'path'
 import Fastify, { FastifyRequest } from 'fastify'
 import Youch from 'youch'
 import type { ViteDevServer } from 'vite'
+import { apiGetPage } from './src/api/apiPage'
+
+
 
 const fastify: any = Fastify({
 	logger: false
@@ -58,6 +61,7 @@ async function createServer(
 	fastify.use('*', async (req: FastifyRequest, res: any) => {
 		try {
 			const url: any = req.raw ? req.raw.url : req.url
+			console.log(`SERVER.URL = ${url}`);
 
 			let template, render
 
@@ -73,10 +77,16 @@ async function createServer(
 				//render = await import('./dist/server/assets__/js/entry-server.js').then(i => i.render)
 			}
 
-			const [appHtml, preloadLinks] = await render(url, manifest)
+			const page = await apiGetPage(url);
+			//console.log(`SERVER.PAGE = `, page);
+			let js = '<script> window.__data__ = '+ JSON.stringify(page) +' </script>';
+
+			const [appHtml, preloadLinks] = await render(url, manifest, page)
+			console.log(`SERVER.preloadLinks = `, preloadLinks);
+
 
 			const html = template
-				.replace(`<!--preload-links-->`, preloadLinks)
+				.replace(`<!--preload-links-->`, preloadLinks + js)
 				.replace(`<!--app-html-->`, appHtml)
 
 			res
@@ -104,7 +114,7 @@ async function createServer(
 
 if (!isTest) {
 	createServer().then(({ app }: any) =>
-		fastify.listen(12345, () => {
+		fastify.listen(3456, () => {
 			console.log('Server listenting on localhost:', fastify.server.address().port)
 		})
 	)

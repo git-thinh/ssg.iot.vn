@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
 
 interface RootState {
 	page: Record<string, any> | null
@@ -20,31 +19,10 @@ export const usePageStore = defineStore({
 			//console.log('[0] Initialize page ...')
 			if (this.isReady) return this.page;
 
-			let url01 = 'http://data.iot.vn/static/article/info-tits.json'
-			let url02 = 'http://data.iot.vn/static/article/info-path.json'
-
-			const page = { app: { path: '' }, titles: [], paths: [] }
-			try {
-				const rs = await Promise.all([
-					axios.get(url01),
-					axios.get(url02)
-				]);
-				let a = rs[0].data;
-				a = a.filter((o: any, k: number) => k < 10);
-				page.titles = a;
-
-				a = rs[1].data;
-				a = a.filter((o: any, k: number) => k < 10);
-				page.paths = a;
-			}
-			catch (error) {
-				alert(error)
-				console.log(error)
-			}
-
+			const page = apiGetPage();
 			console.log('[1] Initialize titles = ', page.titles.length)
 			this.page = page;
-			
+
 			return page;
 		},
 	},

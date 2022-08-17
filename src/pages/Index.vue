@@ -1,7 +1,11 @@
+<route>{name:"Index", layout:"Default", meta:{requiresAuth: false}}</route>
+
 <script lang="ts" setup>
-	const context = useSSRContext()
-	console.log('Index: useSSRContext = ', context)
-	
+	let page = {};
+	//const context = useSSRContext()
+	//if(context) page = context.page;
+	//console.log('Index.useSSRContext: page = ', page)
+
 	const count = ref(0)
 
 	function click() {
@@ -13,7 +17,9 @@
 </script>
 
 <template>
-	<h1>Home</h1>
+	<h1>Index Test</h1>
 	<p>{{ count }}</p>
 	<button @click="click">Click</button>
 </template>
+
+

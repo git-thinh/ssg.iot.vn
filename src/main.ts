@@ -12,12 +12,8 @@ export function createApp() {
 	const pinia = createPinia()
 	app.use(pinia)
 
-	// const context = useSSRContext()
-	// console.log('[MAIN] useSSRContext. = ', context)
-
 	// Before each route navigation we request the data needed for showing the page.
 	router.beforeEach(async (to, from, next) => {
-
 
 		// if (!!to.meta.state && Object.keys(to.meta.state).length > 0) {
 		// 	console.log('[0] ROUTER state != NULL', Object.keys(to.meta.state))
@@ -74,6 +70,11 @@ export function createApp() {
 		// 	console.error(error)
 		// 	// redirect to error route
 		// }
+
+
+		// const a = await apiGetPage();
+		// console.log('[MAIN] a = ', Object.keys(a));
+		// to.meta.state = a;
 
 		next()
 	})

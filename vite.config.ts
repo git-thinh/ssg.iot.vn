@@ -108,12 +108,15 @@ export default defineConfig({
 
 				{
 					'vue': ['createSSRApp', 'useSSRContext', 'ref'],
+					'vue-router': ['useRoute', 'useRouter'],
 					'@vueuse/head': ['head'],
 					'@nuxt/devalue': ['devalue'],
 					'pinia': ['createPinia'],
 
 					'~/router': ['createRouter'],
 					'~/store/page': ['usePageStore'],
+
+					'~/api/apiPage': ['apiGetPage'],
 				},
 
 				// 		{
@@ -195,7 +198,7 @@ export default defineConfig({
 		Components({
 			// relative paths to the directory to search for components.
 			dirs: [
-				`~/components`,
+				`src/components`,
 				//`src/${_projectCode}/components`,
 				//`src/${_projectCode}/contents`,
 				//__pathRuntimeShared,
@@ -243,8 +246,8 @@ export default defineConfig({
 			registerType: 'autoUpdate',
 			includeAssets: ['favicon.svg', 'robots.txt', 'safari-pinned-tab.svg'],
 			manifest: {
-				name: 'Vite App',
-				short_name: 'Vite App',
+				name: 'Test',
+				short_name: 'Test',
 				theme_color: '#ffffff',
 				// icons: [
 				//   {

@@ -1,3 +1,5 @@
+<route>{name:"About", layout:"Default", meta:{requiresAuth: false}}</route>
+
 <template>
   <h1>About</h1>
 </template>
@@ -12,8 +14,4 @@ h1 {
 }
 </style>
 
-<route lang="yaml">
-name: About
-meta:
-  layout: Default
-</route>
+
