@@ -13,7 +13,12 @@ export async function render(url: string, manifest: Record<string, string[]>, pa
 	// @vitejs/plugin-vue injects code into a component's setup() that registers
 	// itself on ctx.modules. After the render, ctx.modules would contain all the
 	// components that have been instantiated during this render call.
-	const ctx: any = { page: page }
+	const ctx: any = {
+		page: page,
+		propsData: {
+			name: new Date().getTime().toString()
+		}
+	}
 	const appHtml = await renderToString(app, ctx)
 
 	// https://github.com/vueuse/head

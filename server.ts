@@ -131,7 +131,7 @@ const html = `
 
 if (!isTest) {
 	createServer().then(({ app }: any) =>
-		fastify.listen(3456, () => {
+		fastify.listen(12345, () => {
 			console.log('Server listenting on localhost:', fastify.server.address().port)
 		})
 	)

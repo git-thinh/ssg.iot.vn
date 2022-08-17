@@ -28,10 +28,12 @@ export default defineConfig({
 	// 		silent: true,
 	// 	},
 	// },
-
+	
+	///resolve: { alias: { vue: 'vue/dist/vue.esm-bundler.js' } }
 	resolve: {
 		alias: {
 			'~/': `${path.resolve(__dirname, 'src')}/`,
+			vue: 'vue/dist/vue.esm-bundler.js',
 		},
 	},
 
@@ -60,7 +62,7 @@ export default defineConfig({
 		// }),
 		Pages({
 			dirs: [
-				{ dir: `~/pages`, baseRoute: '' },
+				{ dir: '~/pages', baseRoute: '' },
 				//{ dir: `core/pages/test`, baseRoute: 'test' },
 				//{ dir: `src/${_projectCode}/pages`, baseRoute: '' },
 				//{ dir: '../shared.iot.vn/pages', baseRoute: '' },
@@ -102,12 +104,12 @@ export default defineConfig({
 				//'@vueuse/core',
 
 				{
-					'vue': ['createSSRApp', 'useSSRContext', 'ref', 'defineComponent', 'computed', 'reactive'],
+					'vue': ['createSSRApp', 'useSSRContext', 'ref', 'defineComponent', 'computed', 'reactive', 'h', 'compile'],
 					'vue-router': ['useRoute', 'useRouter'],
-					
+
 					// https://github.com/vueuse/head
 					'@vueuse/head': ['createHead', 'useHead'],
-					
+
 					'@nuxt/devalue': ['devalue'],
 					'pinia': ['createPinia'],
 
@@ -211,7 +213,8 @@ export default defineConfig({
 			// generate `components.d.ts` global declarations,
 			// also accepts a path for custom filename
 			// default: `true` if package typescript is installed
-			dts: false,
+			//dts: false,
+			dts: 'src/components.d.ts',
 
 			// Allow subdirectories as namespace prefix for components.
 			directoryAsNamespace: false,

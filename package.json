@@ -11,7 +11,7 @@
 		"build:server:noExternal": "vite build --config vite.config.noexternal.ts --ssr src/entry-server.ts --outDir dist/server",
 		"gen": "vite build --ssrManifest --outDir dist/static && pnpm build:server && esno prerender",
 		"serve": "cross-env NODE_ENV=production esno server",
-		"view": "serve ./dist/static -p 3456",
+		"view": "serve ./dist/static -p 12345",
 		"debug": "node --inspect-brk server"
 	},
 	"dependencies": {

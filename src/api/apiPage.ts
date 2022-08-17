@@ -12,30 +12,44 @@ export async function apiGetPage(path_: string) {
 		ok: true,
 		message: '',
 		time: new Date().getTime(),
-		head: {			
+		head: {
 			title: 'Test - 12345',
 			meta: [
-			    {
-			      property: "og:locale:alternate",
-			      content: "zh",
-			      key: "zh",
-			    },
-			    {
-			      property: "og:locale:alternate",
-			      content: "en",
-			      key: "en",
-			    },
+				{
+					charset: "utf-8",
+				},
+				{
+					name: "viewport", 
+					content: "width=device-width, initial-scale=1.0"
+				},
+				{
+					property: "og:locale:alternate",
+					content: "zh",
+					key: "zh",
+				},
+				{
+					property: "og:locale:alternate",
+					content: "en",
+					key: "en",
+				},
+			],
+			link: [
+				{
+					rel: 'icon',
+					type: 'image/icon',
+					href: '/favicon.ico',
+				},
 			],
 			script: [
-			    {
-			      children: `console.log('Hello world!')`,
-			      body: true,
-			    },
+				{
+					children: `console.log('Hello world!')`,
+					body: true,
+				},
 			],
 			style: [
-			    {
-			      children: `body {color: red}`,
-			    },
+				{
+					children: `body {color: red}`,
+				},
 			],
 			noscript: [
 				{
